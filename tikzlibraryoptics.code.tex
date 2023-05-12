@@ -88,6 +88,7 @@ or any later version published by the Free Software Foundation.
       diaphragm/.style={optics, /tikz/optics/diaphragm},
       beam splitter/.prefix style={shape=beam splitter,optics,draw},
       detector/.prefix style={shape=detector,optics,draw},
+      fiber coupler/.prefix style={shape=fiber coupler,optics,draw},
       generic lamp/.prefix style={optics,/tikz/optics/generic lamp},
       generic sensor/.prefix style={optics,/tikz/optics/generic sensor},
       halogen lamp/.prefix style={optics,/tikz/optics/halogen lamp},
@@ -2181,6 +2182,95 @@ or any later version published by the Free Software Foundation.
   }
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shape [fiber coupler]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pgfdeclareshape{fiber coupler}
+{
+  \savedanchor{\center}{
+    \pgfpointorigin
+  }
+  \anchor{center}{\center}
+  \anchor{input}{\center}
+  \anchor{output}{\pgfpoint{\objectHeight/2}{0}}
+
+  \savedmacro\objectHeight{%
+    \edef\objectHeight{\pgfkeysvalueof{/tikz/optics/object height}}%
+  }
+
+  \savedanchor{\northeast}{
+    \pgf@x=\objectHeight%
+    \pgf@y=\objectHeight%
+    \pgf@y=0.5\pgf@y%
+    \pgf@x=0.5\pgf@x%
+  }
+  \anchor{north east}{\northeast}
+
+  \savedanchor{\southwest}{
+    \pgf@x=\objectHeight%
+    \pgf@y=\objectHeight%
+    \pgf@y=-0.5\pgf@y%
+    \pgf@x=-0.5\pgf@x%
+  }
+  \anchor{south west}{\southwest}
+
+  \anchor{north}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xa
+    \pgf@y=\pgf@yb
+  }
+
+  \anchor{south}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xa
+    \pgf@y=\pgf@yb
+  }
+
+  \anchor{east}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xb
+    \pgf@y=\pgf@ya
+  }
+
+  \anchor{west}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xb
+    \pgf@y=\pgf@ya
+  }
+
+  \anchor{north west}{
+    \northeast \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xb
+    \pgf@y=\pgf@ya
+  }
+
+  \anchor{south east}{
+    \northeast \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xa
+    \pgf@y=\pgf@yb
+  }
+
+  \inheritanchorborder[from=rectangle]
+
+  \backgroundpath
+  {
+      \pgfpathmoveto{\pgfpoint{0cm}{\objectHeight/10}}
+      \pgfpathlineto{\pgfpoint{\objectHeight/2}{\objectHeight/20}}
+      \pgfpathlineto{\pgfpoint{\objectHeight/2}{-\objectHeight/20}}
+      \pgfpathlineto{\pgfpoint{0cm}{-\objectHeight/10}}
+      \pgfclosepath
+  }
+  \foregroundpath{
+      \pgfpathcircle{\pgfpoint{0cm}{0cm}}{\objectHeight/10}
+      \pgfusepath{fill}
+  }
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
