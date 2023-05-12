@@ -199,17 +199,23 @@ or any later version published by the Free Software Foundation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\iftikz@optics@lens@converging
 \tikz@optics@lens@convergingtrue
+\newif\iftikz@optics@lens@arrow
+\tikz@optics@lens@arrowtrue
 
 % keys
 % - focal lens is used to define anchors |east focus| and |west focus|
 % - lens height is used to define anchors |lens north| and |lens south|
 % - lens type (converging or diverging)
+% - lens style (arrow or realistic)
 \pgfkeys{/tikz/optics/.cd,
   focal length/.initial=1cm,
   lens height/.initial=0.8,
   lens type/.is choice,
   lens type/converging/.code={\tikz@optics@lens@convergingtrue},
-  lens type/diverging/.code={\tikz@optics@lens@convergingfalse}
+  lens type/diverging/.code={\tikz@optics@lens@convergingfalse},
+  lens style/.is choice,
+  lens style/arrow/.code={\tikz@optics@lens@arrowtrue},
+  lens style/realistic/.code={\tikz@optics@lens@arrowfalse}
 }
 \pgfdeclareshape{lens}
 {
@@ -224,6 +230,14 @@ or any later version published by the Free Software Foundation.
 
   \savedmacro\objectHeight{%
     \edef\objectHeight{\pgfkeysvalueof{/tikz/optics/object height}}%
+  }
+  \savedmacro\objectWidth{%
+    \pgfmathparse{\pgfkeysvalueof{/tikz/optics/object aspect ratio}}
+    \ifpgfmathunitsdeclared%
+      \pgfmathsetlengthmacro{\objectWidth}{\pgfkeysvalueof{/tikz/optics/object aspect ratio}}%
+    \else%
+      \pgfmathsetlengthmacro{\objectWidth}{\pgfkeysvalueof{/tikz/optics/object aspect ratio}*\pgfkeysvalueof{/tikz/optics/object height}}%
+    \fi%
   }
 
   \savedmacro\lensHeight{%
@@ -278,25 +292,46 @@ or any later version published by the Free Software Foundation.
   \anchor{west focal point}{\westfocal}
   \anchor{west focus}{\westfocal}
 
-  \anchor{east}{\center}
-  \anchor{west}{\center}
+  \iftikz@optics@lens@arrow
+      \anchor{east}{\center}
+      \anchor{west}{\center}
+  \else
+      \anchor{east}{\pgfpoint{-0.0152*\objectHeight/0.6946}{0cm}}
+      \anchor{west}{\pgfpoint{0.0152*\objectHeight/0.6946}{0cm}}
+  \fi
 
   \inheritanchorborder[from=thin optics element]
 
   \backgroundpath
   {
-    \north \pgf@xb=\pgf@x \pgf@yb=\pgf@y
-    \south \pgf@xa=\pgf@x \pgf@ya=\pgf@y
-    
-    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
-    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+    \iftikz@optics@lens@arrow
+      \north \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+      \south \pgf@xa=\pgf@x \pgf@ya=\pgf@y
 
-    \iftikz@optics@lens@converging
-      \pgfsetarrowsstart{lens arrow}
-      \pgfsetarrowsend{lens arrow}
+      \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+      \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+
+      \iftikz@optics@lens@converging
+        \pgfsetarrowsstart{lens arrow}
+        \pgfsetarrowsend{lens arrow}
+      \else
+        \pgfsetarrowsstart{lens arrow reversed}
+        \pgfsetarrowsend{lens arrow reversed}
+      \fi
     \else
-      \pgfsetarrowsstart{lens arrow reversed}
-      \pgfsetarrowsend{lens arrow reversed}
+      \pgfmathsetmacro\angle{2*atan(\objectWidth/\objectHeight)}
+      \pgfmathsetmacro\radius{\objectHeight/(2*sin(\angle))}
+      \iftikz@optics@lens@converging
+        \pgfpathmoveto{\pgfpoint{0cm}{\objectHeight/2}}
+        \pgfpatharc{\angle}{-\angle}{\radius}
+        \pgfpatharc{180+\angle}{180-\angle}{\radius}
+      \else
+        \pgfpathmoveto{\pgfpoint{\objectWidth}{-\objectHeight/2}}
+        \pgfpatharc{180+\angle}{180-\angle}{\radius}
+        \pgfpathlineto{\pgfpoint{-\objectWidth}{\objectHeight/2}}
+        \pgfpatharc{\angle}{-\angle}{\radius}
+      \fi
+      \pgfclosepath
     \fi
   }
 }
