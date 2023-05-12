@@ -59,13 +59,13 @@ or any later version published by the Free Software Foundation.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [use optics] 
+% [use optics]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pgfkeys{
   /tikz/use optics/.append code={
   \pgfkeys{
     /tikz/.cd,
-      % shapes 
+      % shapes
       % FIXME il ne devrait pas y avoir de logique (ni de valeurs par défaut) ici, seulement l'export dans l'espace de nom commun
       lens/.prefix style={shape=lens,optics,draw},
       slit/.prefix style={shape=slit,optics,draw},
@@ -86,7 +86,7 @@ or any later version published by the Free Software Foundation.
       grid/.style={optics, /tikz/optics/grid},
       semi-transparent mirror/.style={optics, /tikz/optics/semi-transparent mirror},
       diaphragm/.style={optics, /tikz/optics/diaphragm},
-      beam splitter/.prefix style={optics,/tikz/optics/beam splitter},
+      beam splitter/.prefix style={shape=beam splitter,optics,draw},
       generic lamp/.prefix style={optics,/tikz/optics/generic lamp},
       generic sensor/.prefix style={optics,/tikz/optics/generic sensor},
       halogen lamp/.prefix style={optics,/tikz/optics/halogen lamp},
@@ -267,7 +267,7 @@ or any later version published by the Free Software Foundation.
   }
   \anchor{east focal point}{\eastfocal}
   \anchor{east focus}{\eastfocal}
-  
+
 
   \savedanchor{\westfocal}{
     \pgf@x=-\focalLength%
@@ -314,7 +314,7 @@ or any later version published by the Free Software Foundation.
     \pgfpointorigin
   }
   \anchor{center}{\center}
-  \anchor{slit center}{\center} 
+  \anchor{slit center}{\center}
   % TODO par cohérence ?
 
   \savedmacro\objectHeight{%
@@ -403,7 +403,7 @@ or any later version published by the Free Software Foundation.
     \pgfpointorigin
   }
   \anchor{center}{\center}
-  
+
   \savedmacro\objectHeight{%
     \edef\objectHeight{\pgfkeysvalueof{/tikz/optics/object height}}%
   }
@@ -597,9 +597,9 @@ or any later version published by the Free Software Foundation.
       \pgfmathsetlengthmacro{\pgfdecorationsegmentlength}{\pgfkeysvalueof{/tikz/optics/mirror decoration separation}*\pgfkeysvalueof{/tikz/optics/object height}}%
     \fi%
     % magouillons pour que \pgfdecorationsegmentlength soit un multiple de la longueur ...
-    \pgfmathsetmacro\initialstep{\pgfdecorationsegmentlength} 
-    \pgfmathsetmacro\totallength{\pgfkeysvalueof{/tikz/optics/object height}} 
-    \pgfmathsetmacro\newstep{\totallength/floor(\totallength/\initialstep)} 
+    \pgfmathsetmacro\initialstep{\pgfdecorationsegmentlength}
+    \pgfmathsetmacro\totallength{\pgfkeysvalueof{/tikz/optics/object height}}
+    \pgfmathsetmacro\newstep{\totallength/floor(\totallength/\initialstep)}
     \pgfmathsetlengthmacro{\pgfdecorationsegmentlength}{\newstep}
     % fin magouille
     % - decoration amplitude
@@ -721,9 +721,9 @@ or any later version published by the Free Software Foundation.
         \pgfmathsetmacro\endangle{+\halfangle}
       \fi
     \fi
-    % 
+    %
     % Calculate R cos(angle/2) and R sin(angle/2)
-    % 
+    %
     \pgfmathabs@{\halfangle}%
     \pgfmathcos@{\pgfmathresult}%
     \let\coshalfangle\pgfmathresult%
@@ -784,7 +784,7 @@ or any later version published by the Free Software Foundation.
       \fi%
     }%
     %
-    % Save everything. 
+    % Save everything.
     % "NB \addtosavedmacro is currently experimental. May get changed." d'après le code où je l'ai piqué
     %
     \addtosavedmacro{\radius}%
@@ -919,8 +919,8 @@ or any later version published by the Free Software Foundation.
     \installsphericalmirrorparameters%
     \focalpoint
   }
-  \anchor{mirror center}{\mirrorcenterpoint}  
-  \anchor{center}{\centerpoint} 
+  \anchor{mirror center}{\mirrorcenterpoint}
+  \anchor{center}{\centerpoint}
   \anchor{arc center}{\arccenter}
   \anchor{north}{\north}%
   \anchor{south}{\south}%
@@ -951,9 +951,9 @@ or any later version published by the Free Software Foundation.
       \pgfmathsetlengthmacro{\pgfdecorationsegmentlength}{\pgfkeysvalueof{/tikz/optics/mirror decoration separation}*\pgfkeysvalueof{/tikz/optics/object height}}%
     \fi%
     % magouillons pour que \pgfdecorationsegmentlength soit un multiple de la longueur ...
-    \pgfmathsetmacro\initialstep{\pgfdecorationsegmentlength} 
-    \pgfmathsetmacro\totallength{(2*pi/360)*\angle*\radius} 
-    \pgfmathsetmacro\newstep{\totallength/floor(\totallength/\initialstep)} 
+    \pgfmathsetmacro\initialstep{\pgfdecorationsegmentlength}
+    \pgfmathsetmacro\totallength{(2*pi/360)*\angle*\radius}
+    \pgfmathsetmacro\newstep{\totallength/floor(\totallength/\initialstep)}
     \pgfmathsetlengthmacro{\pgfdecorationsegmentlength}{\newstep}
     % fin magouille
     % - decoration amplitude
@@ -1195,7 +1195,7 @@ or any later version published by the Free Software Foundation.
   prism height/.initial=1.5cm,
   prism apex angle/.initial=60,
 }
-% Idea : we get 
+% Idea : we get
 % apexAngle
 % prismHeight
 % demiPrismWidth = tan(apexAngle/2)*prismHeight
@@ -1417,7 +1417,7 @@ or any later version published by the Free Software Foundation.
   }
   \anchor{body south west}{\bodysouthwest}
 
-  \savedanchor{\outnortheast}{   
+  \savedanchor{\outnortheast}{
     \if@tikz@optics@io@ltr
       % Left To Right (LTR)
       \pgf@x=\objectWidth%
@@ -1471,7 +1471,7 @@ or any later version published by the Free Software Foundation.
     \advance\pgf@y by\outShift
   }
   \anchor{aperture center}{\outcenter}
-  
+
 
   \anchor{body center}{\center}
 
@@ -1746,7 +1746,7 @@ or any later version published by the Free Software Foundation.
       \pgfmathsetlengthmacro{\innerysep}{\pgfkeysvalueof{/tikz/optics/sensor line inner ysep}*\pgfkeysvalueof{/tikz/optics/sensor line height}}%
     \fi%
   }
-  
+
   \savedmacro\pixelWidth{%
     \pgfmathparse{\pgfkeysvalueof{/tikz/optics/sensor line pixel width}}
     \ifpgfmathunitsdeclared%
@@ -1825,7 +1825,7 @@ or any later version published by the Free Software Foundation.
   % BAS (south) du pixel n
   % \objectHeight/2 - \innerysep - n * \pixelHeight
   % west = le même que la boite, donc utiliser \southwest
-  % east = west + \pixelWidth   
+  % east = west + \pixelWidth
 
   % Le but de ce code est de définir des ancres
   % pixel <i> <pos>
@@ -1957,9 +1957,9 @@ or any later version published by the Free Software Foundation.
           \noexpand\pgfmathsetlength\noexpand\temp@y{(\the\c@pgf@counta-\noexpand\pixelNumber-0.5)*\noexpand\pixelHeight-\noexpand\innerysep}
           \noexpand\advance\noexpand\pgf@y by\noexpand\temp@y
         }%
-      }{\c@pgf@counta0\relax}% 
+      }{\c@pgf@counta0\relax}%
       \advance\c@pgf@counta-1\relax%
-    \repeatpgfmathloop% 
+    \repeatpgfmathloop%
   }%
 
   \inheritanchorborder[from=rectangle]
@@ -1997,7 +1997,95 @@ or any later version published by the Free Software Foundation.
         % dessin
         \pgfpathrectanglecorners{\pgfpoint{\pixel@northeast@x}{\pixel@northeast@y}}{\pgfpoint{\pixel@southwest@x}{\pixel@southwest@y}}
       \advance\c@pgf@counta-1\relax%
-    \repeatpgfmathloop% 
+    \repeatpgfmathloop%
+  }
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shape [beam splitter]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pgfdeclareshape{beam splitter}
+{
+  \savedanchor{\center}{
+    \pgfpointorigin
+  }
+  \anchor{center}{\center}
+
+  \savedmacro\objectHeight{%
+    \edef\objectHeight{\pgfkeysvalueof{/tikz/optics/object height}}%
+  }
+
+  \savedanchor{\northeast}{
+    \pgf@x=\objectHeight%
+    \pgf@y=\objectHeight%
+    \pgf@y=0.5\pgf@y%
+    \pgf@x=0.5\pgf@x%
+  }
+  \anchor{north east}{\northeast}
+
+  \savedanchor{\southwest}{
+    \pgf@x=\objectHeight%
+    \pgf@y=\objectHeight%
+    \pgf@y=-0.5\pgf@y%
+    \pgf@x=-0.5\pgf@x%
+  }
+  \anchor{south west}{\southwest}
+
+  \anchor{north}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xa
+    \pgf@y=\pgf@yb
+  }
+
+  \anchor{south}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xa
+    \pgf@y=\pgf@yb
+  }
+
+  \anchor{east}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xb
+    \pgf@y=\pgf@ya
+  }
+
+  \anchor{west}{
+    \center \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xb
+    \pgf@y=\pgf@ya
+  }
+
+  \anchor{north west}{
+    \northeast \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xb
+    \pgf@y=\pgf@ya
+  }
+
+  \anchor{south east}{
+    \northeast \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@x=\pgf@xa
+    \pgf@y=\pgf@yb
+  }
+
+  \inheritanchorborder[from=rectangle]
+
+  \backgroundpath
+  {
+    % rectangle
+    \pgfpathrectanglecorners{\northeast}{\southwest}
+
+    % diagonal
+    \northeast \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \southwest \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
   }
 }
 
@@ -2032,8 +2120,6 @@ or any later version published by the Free Software Foundation.
 \pgfkeys{/tikz/optics/laser/.style={/tikz/optics/generic lamp, io body height=0.5cm, io body aspect ratio=3,io aperture width=0.22,io aperture height=0.5,io aperture shift=0}}
 % Style [laser']
 \pgfkeys{/tikz/optics/laser'/.style={/tikz/optics/generic lamp, io body height=0.5cm, io body aspect ratio=3,io aperture width=0,io aperture height=0.5,io aperture shift=0}}
-% Style [beam splitter]
-\pgfkeys{/tikz/optics/beam splitter/.style={shape=polarizer, optics, draw, object height=1cm, object aspect ratio=1}}
 
 
 
@@ -2119,8 +2205,8 @@ or any later version published by the Free Software Foundation.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Helper styles to easily put things on paths.
 % It is often needed in optics to have e.g. arrows in the middle of a path.
-% It is often needed everywhere to be able to put a coordinate somewhere on 
-% a path. 
+% It is often needed everywhere to be able to put a coordinate somewhere on
+% a path.
 % This is the aim of these helpers.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2132,7 +2218,7 @@ or any later version published by the Free Software Foundation.
 % Le style [put coordinate=<coord> at <pos>] crée une node[coordinate]
 % à l'abscisse curviligne <pos> sur le chemin auquel est appliqué le style.
 %
-% Exemple : 
+% Exemple :
 % \draw[put coordinate=P at 0.3] (0,0) to[bend left] (2cm,0);
 % \draw[red] (P) -- (0,0);
 %
@@ -2147,10 +2233,10 @@ or any later version published by the Free Software Foundation.
 % The aim of this horrible mess is that I want expansion to take place at the right time, so I can ask for something like
 % \draw[/tikz/optics/->-={at=0.25}, /tikz/optics/->-={at=0.75}] (0,0) -- (2cm,2cm) -- (4cm,0);
 % and have it work. Obviously, I want more complicated things (several arrows with different directions, colors, number of >, etc. on the same path).
-% With a naive implementation, this does not work and the last setting always wins. 
+% With a naive implementation, this does not work and the last setting always wins.
 % A possible solution would be positional arguments, however keywords arguments are Better (tm).
 % Hence the need to take care of expansion order, so the specifications apply only to the currently drawn arrow tip.
-% The main idea behing this code is to use Magic (tm) so that Things Work (tm) and never touch it again. 
+% The main idea behing this code is to use Magic (tm) so that Things Work (tm) and never touch it again.
 % However, it is obvious from a trivial application of Murphy Law that this will backfire sometime.
 % Indeed, a key with positional arguments are used internally (|ordered draw key|), which is called from the parsed arguments.
 \tikzset{/tikz/put arrow/.cd,
@@ -2186,7 +2272,7 @@ or any later version published by the Free Software Foundation.
       {\pgfkeysvalueof{/tikz/put arrow/postaction style}}%
   }
   % restore initial values
-  \tikzset{/tikz/put arrow/pos=0.5} 
+  \tikzset{/tikz/put arrow/pos=0.5}
   \tikzset{/tikz/put arrow/style={}}
   \tikzset{/tikz/put arrow/arrow macro={arrow}}
   \tikzset{/tikz/put arrow/arrow type={>}}
@@ -2207,7 +2293,7 @@ or any later version published by the Free Software Foundation.
 
 
 \pgfkeys{
-  /tikz/optics/.cd, 
+  /tikz/optics/.cd,
   use ray arrow >/.code 2 args={
     \pgfsetarrowoptions{ray arrow@length}{4pt}
     \pgfsetarrowoptions{ray arrow@angle}{50}
@@ -2269,10 +2355,10 @@ or any later version published by the Free Software Foundation.
   label text/.initial={},
   label style/.style={},
   % /tikz/dim arrow/label pos is only for the (non short) dim arrows ; \dimarrow@short@position is only for the short version
-  label pos/.initial={0.5}, 
-  label near start/.code={\pgfkeys{/tikz/dim arrow/label pos=0} \def\dimarrow@short@position{0}}, 
-  label near middle/.code={\pgfkeys{/tikz/dim arrow/label pos=0.5} \def\dimarrow@short@position{2}}, 
-  label near end/.code={\pgfkeys{/tikz/dim arrow/label pos=1} \def\dimarrow@short@position{1}}, 
+  label pos/.initial={0.5},
+  label near start/.code={\pgfkeys{/tikz/dim arrow/label pos=0} \def\dimarrow@short@position{0}},
+  label near middle/.code={\pgfkeys{/tikz/dim arrow/label pos=0.5} \def\dimarrow@short@position{2}},
+  label near end/.code={\pgfkeys{/tikz/dim arrow/label pos=1} \def\dimarrow@short@position{1}},
   arrow length/.initial={5mm}, % only for short
   arrow style/.style={|<->|}, % this is modified by [left/right dim arrow]
   ->/.code={\tikzset{/tikz/dim arrow/arrow style/.style={|->|}}},
@@ -2295,7 +2381,7 @@ or any later version published by the Free Software Foundation.
         \p2=($(\tikztotarget)!\pgfkeysvalueof{/tikz/dim arrow/raise}!-90:(\tikztostart)$)
         in ($(\p2)!-\pgfkeysvalueof{/tikz/dim arrow/arrow length}!(\p1)$) -- ($(\p2)!0!(\p1)$);
     \ifnum\dimarrow@short@position=0
-    \path let 
+    \path let
         \p1=($(\tikztostart)!\labelTotalRaise!90:(\tikztotarget)$),
         \p2=($(\tikztotarget)!\labelTotalRaise!-90:(\tikztostart)$)
         in let
@@ -2305,7 +2391,7 @@ or any later version published by the Free Software Foundation.
     (\p3) -- (\p4) node[pos=0.5,auto=left,/tikz/dim arrow/label style] {\pgfkeysvalueof{/tikz/dim arrow/label text}};
   \fi
     \ifnum\dimarrow@short@position=1
-      \path let 
+      \path let
         \p1=($(\tikztostart)!\labelTotalRaise!90:(\tikztotarget)$),
         \p2=($(\tikztotarget)!\labelTotalRaise!-90:(\tikztostart)$)
         in let
@@ -2315,7 +2401,7 @@ or any later version published by the Free Software Foundation.
     (\p4) -- (\p3) node[pos=0.5,auto=left,/tikz/dim arrow/label style] {\pgfkeysvalueof{/tikz/dim arrow/label text}};
     \fi
   \ifnum\dimarrow@short@position=2
-    \path let 
+    \path let
         \p1=($(\tikztostart)!\labelTotalRaise!90:(\tikztotarget)$),
         \p2=($(\tikztotarget)!\labelTotalRaise!-90:(\tikztostart)$)
     in
@@ -2332,11 +2418,11 @@ or any later version published by the Free Software Foundation.
     \pgfmathsetlength\labelTotalRaise{\pgfkeysvalueof{/tikz/dim arrow/raise}}
         \pgfinterruptpath
         \draw[>=technical,/tikz/dim arrow/arrow style] \pgfextra{\let\tikz@mode=\tikz@mode@save\let\tikz@options=\tikz@options@save}
-    let 
+    let
         \p1=($(\tikztostart)!\pgfkeysvalueof{/tikz/dim arrow/raise}!90:(\tikztotarget)$),
         \p2=($(\tikztotarget)!\pgfkeysvalueof{/tikz/dim arrow/raise}!-90:(\tikztostart)$)
         in (\p1) -- (\p2);
-    \path let 
+    \path let
         \p1=($(\tikztostart)!\labelTotalRaise!90:(\tikztotarget)$),
         \p2=($(\tikztotarget)!\labelTotalRaise!-90:(\tikztostart)$)
         in (\p1) -- (\p2) node[pos=\pgfkeysvalueof{/tikz/dim arrow/label pos},auto=left,/tikz/dim arrow/label style] {\pgfkeysvalueof{/tikz/dim arrow/label text}};
@@ -2367,13 +2453,13 @@ or any later version published by the Free Software Foundation.
 {
   \pgfsetroundcap
   \pgfsetmiterjoin
-  \pgfmathsetlength{\pgfutil@tempdimb}{\pgfgetarrowoptions{lens arrow@length}*sin(\pgfgetarrowoptions{lens arrow@angle}/2)}    
+  \pgfmathsetlength{\pgfutil@tempdimb}{\pgfgetarrowoptions{lens arrow@length}*sin(\pgfgetarrowoptions{lens arrow@angle}/2)}
   \def\arrow@origin{\pgfpoint{0pt}{0pt}}
   \pgfutil@tempdima=\pgfgetarrowoptions{lens arrow@length}%
   \pgfmathsetmacro{\tmp@lens@angle}{90+\pgfgetarrowoptions{lens arrow@angle}}
   \pgfmathsetmacro{\tmp@lens@anglediv}{\pgfgetarrowoptions{lens arrow@angle}/2}
   \advance\pgfutil@tempdima by -1.5\pgflinewidth%
-  \pgfmathsetlength{\pgfutil@tempdima}{\pgfutil@tempdima/cos(\pgfgetarrowoptions{lens arrow@angle}/2)}    
+  \pgfmathsetlength{\pgfutil@tempdima}{\pgfutil@tempdima/cos(\pgfgetarrowoptions{lens arrow@angle}/2)}
   \pgfpathmoveto{\pgfpointadd{\arrow@origin}{\pgfqpointpolar{\tmp@lens@angle}{\pgfutil@tempdima}}}
   \pgfpathlineto{\arrow@origin}
   \pgfpathlineto{\pgfpointadd{\arrow@origin}{\pgfqpointpolar{-\tmp@lens@angle}{\pgfutil@tempdima}}}
@@ -2519,22 +2605,22 @@ contour/.style={draw=black},
 \coordinate (optics@eye@centerForCornea) at (-0.3cm, {-\tikz@optics@eye@contourRadius*abs(sin(\tikz@optics@eye@thetaB))});
 
 \newdimen\tikz@optics@eye@radiusForCornea
-\path let 
+\path let
   \p1 = ($(optics@eye@corneaStart) - (optics@eye@centerForCornea)$),
   \p2 = ($(optics@eye@corneaEnd) - (optics@eye@centerForCornea)$),
   \n0 = {veclen(\x1,\y1)},
   \n1 = {atan(\y1/\x1)+180*(\x1<0)},
   \n2 = {atan(\y2/\x2)+180*(\x2<0)}
-  in node 
+  in node
 {
   \newdimen\tempdimen
-  \pgfmathsetlength\tempdimen{\n0} 
+  \pgfmathsetlength\tempdimen{\n0}
   \global\tikz@optics@eye@radiusForCornea=\tempdimen
 
-  \pgfmathparse{\n1} 
+  \pgfmathparse{\n1}
   \global\let\angleoptics@eye@CorneaStart\pgfmathresult
 
-  \pgfmathparse{\n2} 
+  \pgfmathparse{\n2}
   \global\let\angleCorneaStop\pgfmathresult
 };
 
@@ -2585,8 +2671,8 @@ contour/.style={draw=black},
 % 2014-09-20 : ajout de |spherical mirror| et quelques modifications à |mirror| (ajustement de la décoration et de ses réglages par défaut)
 % 2014-09-22 : ajustements de |spherical mirror| (concave et convexe), et ajout des styles correspondants |convex mirror| et |concave mirror|
 % 2014-09-24 : ajustements de |spherical mirror| (ltr/rtl) ; correction des ancres de generic optics io (aperture north, aperture center, aperture south étaient incorrectes)
-% 2014-09-25 : corrections à |spherical mirror| (ltr/rtl vs concave/convex) ; 
-% 2014-10-02 : ajout d'une fonction |from_radius| pour définir l'angle d'ouverture de |spherical mirror|, encore des corrections à |spherical mirror| (ltr/rtl vs concave/convex) ; 
+% 2014-09-25 : corrections à |spherical mirror| (ltr/rtl vs concave/convex) ;
+% 2014-10-02 : ajout d'une fonction |from_radius| pour définir l'angle d'ouverture de |spherical mirror|, encore des corrections à |spherical mirror| (ltr/rtl vs concave/convex) ;
 %               macro pour les messages d'erreur
 % 2014-10-03 : vérifications de cohérence des grandeurs pour |slit| et |double slit| ; messages d'erreur au besoin
 % 2014-12-07 : modifications substantielles à |put arrow| et |optics/->n-|, etc. pour pouvoir avoir plusieurs flèches sur le même chemin ; la compatibilité arrière est brisée.
