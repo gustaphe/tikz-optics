@@ -1,0 +1,54 @@
+\documentclass[tikzpicture]{standalone}
+
+\usepackage{tikz}
+\usepackage{booktabs}
+
+\usetikzlibrary{optics}
+
+\tikzset{optics/object height=0.5cm}
+
+\newcommand{\showcase}[1]{%
+    %\def\nodename{#1}%
+    \texttt{#1} & \tikz[use optics]{\node[#1] at (0,0) {};}%
+}
+
+\begin{document}
+\begin{tabular}{rc}
+    \toprule
+    Code & Result \\\midrule
+    \showcase{lens} \\
+    \showcase{lens, lens type=diverging} \\
+    \showcase{lens, lens style=realistic} \\
+    \showcase{lens, lens style=realistic, lens type=diverging} \\
+    \showcase{slit} \\
+    \showcase{double slit} \\
+    \showcase{thin optics element} \\
+    \showcase{polarizer} \\
+    \showcase{generic optics io} \\
+    %\showcase{sensor} \\ % This is listed in the styles section but not defined
+    \showcase{sensor line} \\
+    \showcase{mirror} \\
+    \showcase{spherical mirror} \\
+    \showcase{thick optics element} \\
+    \showcase{heat filter} \\
+    \showcase{double amici prism} \\
+    \showcase{screen} \\
+    \showcase{diffraction grating} \\
+    \showcase{grid} \\
+    \showcase{semi-transparent mirror} \\
+    \showcase{diaphragm} \\
+    \showcase{beam splitter} \\
+    \showcase{detector} \\
+    \showcase{fiber coupler} \\
+    \showcase{generic lamp} \\
+    \showcase{generic sensor} \\
+    \showcase{halogen lamp} \\
+    \showcase{spectral lamp} \\
+    \showcase{laser} \\
+    \showcase{laser'} \\
+    \showcase{concave mirror} \\
+    \showcase{convex mirror} \\
+    \bottomrule
+\end{tabular}
+
+\end{document}
